@@ -1,0 +1,61 @@
+.recipe-details-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8); /* Dark transparent overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-content {
+
+    background-color: white !important; 
+    color: black; /* Ensure text is visible */
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh; /* Ensures content doesn't overflow */
+    overflow-y: auto; /* Scrollable only within the modal */
+    text-align: center;
+}
+
+.modal-image {
+    width: 100%; /* Fixed width for consistency */
+    height: 300px; /* Fixed height for all images */
+    object-fit: cover; /* Ensures consistent image scaling */
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.recipe-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.recipe-text {
+    color: black;
+    line-height: 1.5;
+    font-size: 16px;
+}
+
+.close-button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.close-button:hover {
+    background-color: #c82333;
+}
