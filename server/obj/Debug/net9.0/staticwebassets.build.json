@@ -1,0 +1,20 @@
+{
+  "Version": 1,
+  "Hash": "5ofR8lh4bhzyBfQDxyFK+r2GnfFPJ2IMHrOpB+sJetk=",
+  "Source": "server",
+  "BasePath": "_content/server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "server\\wwwroot",
+      "Source": "server",
+      "ContentRoot": "C:\\Users\\SANJAYKUMAR K\\Desktop\\Recipe-Management-System\\server\\wwwroot\\",
+      "BasePath": "_content/server",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [],
+  "Endpoints": []
+}
