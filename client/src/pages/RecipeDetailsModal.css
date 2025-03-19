@@ -59,3 +59,45 @@
 .close-button:hover {
     background-color: #c82333;
 }
+
+
+.filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    background-color: #f8f9fa; /* Light background for contrast */
+    padding: 15px;
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Professional shadow effect */
+}
+
+.filters .search-bar,
+.filters .category-select {
+    flex: 1;
+    min-width: 200px;
+}
+
+.search-bar input,
+.category-select select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ced4da;
+    border-radius: 6px;
+    outline: none;
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.search-bar input:focus,
+.category-select select:focus {
+    border-color: #28a745; /* Green highlight on focus */
+    box-shadow: 0 0 8px rgba(40, 167, 69, 0.3);
+}
+
+@media (max-width: 768px) {
+    .filters {
+        flex-direction: column; /* Stack items on smaller screens */
+    }
+}

@@ -1,0 +1,101 @@
+.contact-container {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: #f3f4f6;
+    padding: 2rem;
+}
+
+.contact-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    padding: 2.5rem 3rem;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+.contact-title {
+    color: #5e60ce;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.contact-description {
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+.contact-details {
+    margin-bottom: 2rem;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.8rem 0;
+    color: #5e60ce;
+}
+
+.contact-icon {
+    margin-right: 0.8rem;
+    font-size: 1.5rem;
+}
+
+.contact-item a {
+    text-decoration: none;
+    color: #5e60ce;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.contact-item a:hover {
+    color: #4e4eb0;
+}
+
+.social-section {
+    margin-top: 1.5rem;
+}
+
+.social-section h3 {
+    color: #5e60ce;
+    margin-bottom: 1rem;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.social-icon {
+    font-size: 1.8rem;
+    color: #5e60ce;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icon:hover {
+    transform: scale(1.2);
+}
+
+.facebook:hover {
+    color: #4267B2;
+}
+
+.instagram:hover {
+    color: #E1306C;
+}
+
+.twitter:hover {
+    color: #1DA1F2;
+}
+
+.contact-footer {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: #6c757d;
+}

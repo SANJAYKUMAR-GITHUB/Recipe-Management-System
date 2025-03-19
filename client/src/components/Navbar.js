@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import './Navbar.css';
 
 const Navbar = ({ isLoggedIn, username, onLogout }) => {
     const navigate = useNavigate();
@@ -10,9 +11,14 @@ const Navbar = ({ isLoggedIn, username, onLogout }) => {
     };
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg navbar-light bg-custom">
             <div className="container">
-                <Link className="navbar-brand" to="/">Recipe Management</Link>
+                 {/* Brand Section - Link for Guests, Plain Text for Logged-in Users */}
+                 {isLoggedIn ? (
+                    <span className="navbar-brand">Recipe Management</span>
+                ) : (
+                    <Link className="navbar-brand" to="/">Recipe Management</Link>
+                )}
                 <div className="collapse navbar-collapse">
                     <ul className="navbar-nav ms-auto">
                         {isLoggedIn ? (

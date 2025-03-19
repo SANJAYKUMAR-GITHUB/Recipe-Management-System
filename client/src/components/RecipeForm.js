@@ -1,142 +1,8 @@
-// import React from 'react';
-// import { useFormik } from 'formik';
-// import * as Yup from 'yup';
-// import { addRecipe, editRecipe } from '../services/RecipeService';
-// import { useNavigate } from 'react-router-dom';
-
-// const RecipeForm = ({ isEdit = false, initialData = {} }) => {
-//     const navigate = useNavigate();
-
-//     const formik = useFormik({
-//         initialValues: {
-//             title: initialData.title || '',
-//             description: initialData.description || '',
-//             category: initialData.category || '',
-//             ingredients: initialData.ingredients || '',
-//             instructions: initialData.instructions || '',
-//             image: null
-//         },
-//         validationSchema: Yup.object({
-//             title: Yup.string().required('Title is required'),
-//             category: Yup.string().required('Category is required'),
-//             ingredients: Yup.string().required('Ingredients are required'),
-//             instructions: Yup.string().required('Instructions are required'),
-//         }),
-//         onSubmit: async (values) => {
-//             const formData = new FormData();
-
-//             formData.append('Title', values.title);
-//             formData.append('Description', values.description || '');
-//             formData.append('Category', values.category);
-//             formData.append('Ingredients', values.ingredients);
-//             formData.append('Instructions', values.instructions);
-//             formData.append('UserId', parseInt(localStorage.getItem('userId'))); // ✅ Ensure integer format
-
-//             if (values.image) {
-//                 formData.append('Image', values.image);
-//             }
-
-//             try {
-//                 if (isEdit) {
-//                     await editRecipe(initialData.id, formData);
-//                     alert('Recipe updated successfully!');
-//                 } else {
-//                     await addRecipe(formData);
-//                     alert('Recipe added successfully!');
-//                 }
-
-//                 navigate('/your-recipes');
-//             } catch (error) {
-//                 console.error('Error:', error);
-//                 alert(`An error occurred: ${error.response?.data || 'Please try again.'}`);
-//             }
-//         }
-//     });
-
-//     return (
-//         <div className="container mt-4">
-//             <h2>{isEdit ? 'Edit Recipe' : 'Add Recipe'}</h2>
-//             <form onSubmit={formik.handleSubmit} encType="multipart/form-data">
-//                 <div className="mb-3">
-//                     <label>Title</label>
-//                     <input
-//                         type="text"
-//                         className="form-control"
-//                         {...formik.getFieldProps('title')}
-//                     />
-//                     {formik.touched.title && formik.errors.title && (
-//                         <div className="text-danger">{formik.errors.title}</div>
-//                     )}
-//                 </div>
-
-//                 <div className="mb-3">
-//                     <label>Description (Optional)</label>
-//                     <textarea
-//                         className="form-control"
-//                         {...formik.getFieldProps('description')}
-//                     />
-//                 </div>
-
-//                 <div className="mb-3">
-//                     <label>Category</label>
-//                     <input
-//                         type="text"
-//                         className="form-control"
-//                         {...formik.getFieldProps('category')}
-//                     />
-//                     {formik.touched.category && formik.errors.category && (
-//                         <div className="text-danger">{formik.errors.category}</div>
-//                     )}
-//                 </div>
-
-//                 <div className="mb-3">
-//                     <label>Ingredients</label>
-//                     <textarea
-//                         className="form-control"
-//                         {...formik.getFieldProps('ingredients')}
-//                     />
-//                     {formik.touched.ingredients && formik.errors.ingredients && (
-//                         <div className="text-danger">{formik.errors.ingredients}</div>
-//                     )}
-//                 </div>
-
-//                 <div className="mb-3">
-//                     <label>Instructions</label>
-//                     <textarea
-//                         className="form-control"
-//                         {...formik.getFieldProps('instructions')}
-//                     />
-//                     {formik.touched.instructions && formik.errors.instructions && (
-//                         <div className="text-danger">{formik.errors.instructions}</div>
-//                     )}
-//                 </div>
-
-//                 <div className="mb-3">
-//                     <label>Image</label>
-//                     <input
-//                         type="file"
-//                         className="form-control"
-//                         onChange={(event) => {
-//                             formik.setFieldValue('image', event.currentTarget.files[0]);
-//                         }}
-//                     />
-//                 </div>
-
-//                 <button type="submit" className="btn btn-primary">
-//                     {isEdit ? 'Update Recipe' : 'Add Recipe'}
-//                 </button>
-//             </form>
-//         </div>
-//     );
-// };
-
-// export default RecipeForm;
-
-
-
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {  useLocation,useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+import { FaImage, FaCheckCircle, FaEdit, FaPlusCircle } from 'react-icons/fa';
 
 const RecipeForm = ({ userEmail }) => {
     const [formData, setFormData] = useState({
@@ -148,10 +14,14 @@ const RecipeForm = ({ userEmail }) => {
         image: null
     });
 
+    const [imagePreview, setImagePreview] = useState(null);
+
     const location = useLocation();
     const navigate = useNavigate();
     const existingRecipe = location.state?.recipe;
     const isEditing = !!existingRecipe;
+    
+
     useEffect(() => {
         if (isEditing && existingRecipe) {
             setFormData({
@@ -160,10 +30,22 @@ const RecipeForm = ({ userEmail }) => {
                 category: existingRecipe.category || '',
                 ingredients: existingRecipe.ingredients || '',
                 instructions: existingRecipe.instructions || '',
-                image: null  // Image won't auto-fill, will require re-upload
+                image: null
             });
+
+            // Load existing image preview if available
+            if (existingRecipe.image) {
+                setImagePreview(`data:image/jpeg;base64,${existingRecipe.image}`);
+            }
         }
     }, [isEditing, existingRecipe]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            window.scrollTo(0, 0); // Reset scroll position
+            document.body.style.overflow = 'auto'; // Ensures scrolling is re-enabled
+        }, 100); // Delay ensures the DOM finishes rendering
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -171,7 +53,15 @@ const RecipeForm = ({ userEmail }) => {
     };
 
     const handleImageChange = (e) => {
-        setFormData({ ...formData, image: e.target.files[0] });
+        const file = e.target.files[0];
+        setFormData({ ...formData, image: file });
+
+        // Show image preview
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => setImagePreview(reader.result);
+            reader.readAsDataURL(file);
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -183,19 +73,19 @@ const RecipeForm = ({ userEmail }) => {
         data.append('Category', formData.category);
         data.append('Ingredients', formData.ingredients);
         data.append('Instructions', formData.instructions);
-        data.append('UserEmail', userEmail);  // Pass userEmail for UserId assignment
+        data.append('UserEmail', userEmail);
+
         if (formData.image) {
             data.append('Image', formData.image);
         }
 
         try {
-            if(isEditing){
-                await axios.put(`http://localhost:5116/api/recipes/${existingRecipe.id}`,data);
+            if (isEditing) {
+                await axios.put(`http://localhost:5116/api/recipes/${existingRecipe.id}`, data);
                 alert('Recipe updated successfully!');
-            }
-            else{
-            const response = await axios.post('http://localhost:5116/api/recipes/add', data);
-            alert(response.data.message);
+            } else {
+                const response = await axios.post('http://localhost:5116/api/recipes/add', data);
+                alert(response.data.message);
             }
             navigate('/your-recipes');
         } catch (error) {
@@ -204,41 +94,123 @@ const RecipeForm = ({ userEmail }) => {
     };
 
     return (
-        <div className="container mt-4">
-            <h2>{isEditing ? 'Edit Recipe' : 'Add Recipe'}</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Title:</label>
-                    <input type="text" name="title" value={formData.title} className="form-control" onChange={handleChange} required />
-                </div>
+        <div className="container mt-5 d-flex justify-content-center">
+            <div className="card shadow-lg p-4" style={{ width: '100%', maxWidth: '600px' }}>
+                <h2 className="text-center mb-4 text-primary">
+                    {isEditing ? <FaEdit className="me-2" /> : <FaPlusCircle className="me-2" />}
+                    {isEditing ? 'Edit Recipe' : 'Add Recipe'}
+                </h2>
 
-                <div className="form-group">
-                    <label>Description:</label>
-                    <textarea name="description"   value={formData.description} className="form-control" onChange={handleChange}></textarea>
-                </div>
+                <form onSubmit={handleSubmit}>
 
-                <div className="form-group">
-                    <label>Category:</label>
-                    <input type="text" name="category"   value={formData.category} className="form-control" onChange={handleChange} required />
-                </div>
+                    {/* Title */}
+                    <div className="form-group mb-3">
+                        <label className="fw-bold">Title:</label>
+                        <input
+                            type="text"
+                            name="title"
+                            value={formData.title}
+                            className="form-control"
+                            onChange={handleChange}
+                            placeholder="Enter recipe title"
+                            required
+                        />
+                    </div>
 
-                <div className="form-group">
-                    <label>Ingredients:</label>
-                    <textarea name="ingredients" value={formData.ingredients} className="form-control" onChange={handleChange}></textarea>
-                </div>
+                    {/* Description */}
+                    <div className="form-group mb-3">
+                        <label className="fw-bold">Description:</label>
+                        <textarea
+                            name="description"
+                            value={formData.description}
+                            className="form-control"
+                            onChange={handleChange}
+                            placeholder="Add a brief description"
+                        ></textarea>
+                    </div>
 
-                <div className="form-group">
-                    <label>Instructions:</label>
-                    <textarea name="instructions" value={formData.instructions} className="form-control" onChange={handleChange}></textarea>
-                </div>
+                    {/* Category */}
+                    <div className="form-group mb-3">
+                        <label className="fw-bold">Category:</label>
+                        <input
+                            type="text"
+                            name="category"
+                            value={formData.category}
+                            className="form-control"
+                            onChange={handleChange}
+                            placeholder="e.g., Appetizer, Dessert, etc."
+                            required
+                        />
+                    </div>
 
-                <div className="form-group">
-                    <label>Image (optional):</label>
-                    <input type="file" name="image" className="form-control-file" onChange={handleImageChange} />
-                </div>
+                    {/* Ingredients */}
+                    <div className="form-group mb-3">
+                        <label className="fw-bold">Ingredients:</label>
+                        <textarea
+                            name="ingredients"
+                            value={formData.ingredients}
+                            className="form-control"
+                            onChange={handleChange}
+                            placeholder="List ingredients here"
+                        ></textarea>
+                    </div>
 
-                <button type="submit" className="btn btn-primary mt-3">{isEditing ? 'Edit Recipe' : 'Add Recipe'}</button>
-            </form>
+                    {/* Instructions */}
+                    <div className="form-group mb-3">
+                        <label className="fw-bold">Instructions:</label>
+                        <textarea
+                            name="instructions"
+                            value={formData.instructions}
+                            className="form-control"
+                            onChange={handleChange}
+                            placeholder="Step-by-step instructions"
+                        ></textarea>
+                    </div>
+
+                    {/* Image Upload */}
+                    <div className="form-group mb-3">
+                        <label className="fw-bold">
+                            <FaImage className="me-2" />
+                            Upload Image (Optional):
+                        </label>
+                        <input
+                            type="file"
+                            name="image"
+                            className="form-control"
+                            onChange={handleImageChange}
+                            accept="image/*"
+                        />
+
+                        {/* Image Preview */}
+                        {imagePreview && (
+                            <div className="mt-3 text-center">
+                                <img
+                                    src={imagePreview}
+                                    alt="Recipe Preview"
+                                    className="img-thumbnail"
+                                    style={{ maxWidth: '200px', maxHeight: '200px' }}
+                                />
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Submit Button */}
+                    <button
+                        type="submit"
+                        className={`btn ${isEditing ? 'btn-warning' : 'btn-success'} w-100 mt-3`}
+                    >
+                        {isEditing ? (
+                            <>
+                                <FaEdit className="me-2" /> Update Recipe
+                            </>
+                        ) : (
+                            <>
+                                <FaCheckCircle className="me-2" /> Add Recipe
+                            </>
+                        )}
+                    </button>
+                </form>
+            </div>
         </div>
     );
 };

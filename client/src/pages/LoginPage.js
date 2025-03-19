@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Button, Form, Container, Card, Alert } from 'react-bootstrap';
+import { FaEnvelope, FaLock, FaEye,FaEyeSlash } from 'react-icons/fa';
 
-const LoginPage = ({ setIsLoggedIn, setUsername}) => {
+const LoginPage = ({ setIsLoggedIn, setUsername }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
     const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
+
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        setError('');
 
         try {
             const response = await axios.post('http://localhost:5116/api/auth/login', {
@@ -25,53 +31,94 @@ const LoginPage = ({ setIsLoggedIn, setUsername}) => {
                 // Store user session data in local storage
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('username', username);
-                localStorage.setItem('userEmail', userEmail); // Fixed this as requested
+                localStorage.setItem('userEmail', userEmail);
                 localStorage.setItem('userId', id);
-                // setIsLoggedIn(true);
-                // setUsername(response.data.user.username);
-                // setUserEmail(response.data.user.email);
-
-                // // Store user session data
-                // localStorage.setItem('isLoggedIn', 'true');
-                // localStorage.setItem('username', response.data.user.username);
-                // localStorage.setItem('userEmail', response.data.user.email);
 
                 navigate('/all-recipes');
             } else {
-                alert('Invalid credentials. Please try again.');
+                setError('Invalid credentials. Please try again.');
             }
         } catch (error) {
-            alert('Login failed. Please try again.');
+            setError('Login failed. Please try again.');
         }
     };
 
     return (
-        <div className="container">
-            <h2>Login</h2>
-            <form onSubmit={handleLogin}>
-                <div className="mb-3">
-                    <label>Email:</label>
-                    <input
-                        type="email"
-                        className="form-control"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="mb-3">
-                    <label>Password:</label>
-                    <input
-                        type="password"
-                        className="form-control"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <button type="submit" className="btn btn-primary">Login</button>
-            </form>
-        </div>
+        <Container 
+        className="d-flex justify-content-center align-items-center" 
+        style={{ height: '80vh', paddingTop: '0px' }} // Reduced top padding
+        >
+
+            <Card style={{ width: '100%', maxWidth: '400px', boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)' }} className="p-4">
+                <h2 className="text-center mb-4" style={{ color: '#5e60ce' }}>Login</h2>
+
+                {error && <Alert variant="danger">{error}</Alert>}
+
+                <Form onSubmit={handleLogin}>
+                    <Form.Group className="mb-3">
+                        <Form.Label><FaEnvelope className="me-2" /> Email</Form.Label>
+                        <Form.Control
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </Form.Group>
+                    
+                    <Form.Group className="mb-3 position-relative">
+                        <Form.Label>
+                            <FaLock className="me-2" /> Password
+                        </Form.Label>
+                        <div className="position-relative">
+                            <Form.Control
+                                type={showPassword ? 'text' : 'password'}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required />
+                                
+                                {showPassword ? (
+                                <FaEye
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="position-absolute"
+                                    style={{
+                                        top: '50%',
+                                        right: '10px',
+                                        transform: 'translateY(-50%)',
+                                        cursor: 'pointer',
+                                        color: '#5e60ce'
+                                    }}
+                                />
+                                ) : (
+                                <FaEyeSlash
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="position-absolute"
+                                    style={{
+                                        top: '50%',
+                                        right: '10px',
+                                        transform: 'translateY(-50%)',
+                                        cursor: 'pointer',
+                                        color: '#5e60ce'
+                                    }}
+                                />
+                            )}
+                        </div>
+                    </Form.Group>
+
+                    <Button
+                        type="submit"
+                        style={{
+                            backgroundColor: '#5e60ce',
+                            border: 'none',
+                            width: '100%',
+                            padding: '10px 0'
+                        }}
+                        className="mt-3"
+                    >
+                        Login
+                    </Button>
+                </Form>
+            </Card>
+        </Container>
     );
 };
 

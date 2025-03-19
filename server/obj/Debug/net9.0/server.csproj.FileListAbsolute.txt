@@ -164,3 +164,4 @@ C:\Users\SANJAYKUMAR K\Desktop\Recipe-Management-System\server\obj\Debug\net9.0\
 C:\Users\SANJAYKUMAR K\Desktop\Recipe-Management-System\server\obj\Debug\net9.0\server.genruntimeconfig.cache
 C:\Users\SANJAYKUMAR K\Desktop\Recipe-Management-System\server\obj\Debug\net9.0\ref\server.dll
 C:\Users\SANJAYKUMAR K\Desktop\Recipe-Management-System\server\bin\Debug\net9.0\server.staticwebassets.runtime.json
+C:\Users\SANJAYKUMAR K\Desktop\Recipe-Management-System\server\obj\Debug\net9.0\server.sourcelink.json

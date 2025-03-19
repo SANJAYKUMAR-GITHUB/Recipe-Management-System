@@ -1,0 +1,59 @@
+.add-recipe-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+.add-recipe-title{
+    color: black;
+    font-style: oblique;
+}
+.recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.recipe-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.recipe-card:hover {
+    transform: scale(1.05);
+}
+
+.recipe-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.recipe-info {
+    padding: 10px;
+    text-align: center;
+}
+
+.filter-section {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.filter-section .form-control,
+.filter-section .form-select {
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .filter-section .form-control,
+    .filter-section .form-select {
+        width: auto;
+        flex: 1;
+    }
+}

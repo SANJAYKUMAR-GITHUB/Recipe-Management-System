@@ -36,3 +36,74 @@
     transform: rotate(360deg);
   }
 }
+
+
+body {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+.register-container {
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+.register-card {
+  background-color: #ffffff;
+  border-radius: 20px;
+  border: none;
+  padding: 40px;
+  transform: scale(1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.register-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.register-title {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.form-label {
+  font-weight: 500;
+  color: #495057;
+}
+
+.register-btn {
+  background-color: #007bff;
+  border: none;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.register-btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.input-group-text {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+}
+
+.input-group .form-control {
+  border-left: 0;
+  box-shadow: none;
+}
+
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: translateY(-20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}

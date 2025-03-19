@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Route, Routes, Navigate } from 'react-router-dom';
+import {Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Homepage from './pages/Homepage';
 import AboutUsPage from './pages/AboutUsPage';
@@ -10,11 +10,16 @@ import AllRecipesPage from './pages/AllRecipesPage';
 import YourRecipesPage from './pages/YourRecipesPage';
 import RecipeForm from './components/RecipeForm';
 import preventBackNavigation from './utils/preventBackNavigation';
+import Footer from './components/Footer';
+import ScrollTop from './components/ScrollTop';
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [username, setUsername] = useState('');
     const loggedInUserEmail = localStorage.getItem('userEmail');
+
+    const location = useLocation();
+    const navigate = useNavigate();
 
     // Check if user is already logged in
     useEffect(() => {
@@ -24,7 +29,11 @@ function App() {
         if (storedLoginStatus === 'true' && storedUsername) {
             setIsLoggedIn(true);
             setUsername(storedUsername);
+
+            if (location.pathname === '/') {
+                navigate('/all-recipes');
         }
+    }
         preventBackNavigation();
     }, []);
 
@@ -33,17 +42,19 @@ function App() {
         setUsername('');
         localStorage.removeItem('isLoggedIn');
         localStorage.removeItem('username');
+        navigate('/');
     };
 
     return (
        <>
+            <ScrollTop />
             <Navbar
                 isLoggedIn={isLoggedIn}
                 username={username}
                 onLogout={handleLogout}
             />
             <Routes>
-                <Route path="/" element={<Homepage />} />
+                <Route path="/" element={isLoggedIn ? <Navigate to="/all-recipes"/>: <Homepage />} />
                 <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} setUsername={setUsername} />} />
                 <Route path="/all-recipes" element={isLoggedIn ? <AllRecipesPage /> : <Navigate to="/" />} />
                 <Route path="/add-recipe" element={<RecipeForm userEmail={loggedInUserEmail} />} />
@@ -53,6 +64,7 @@ function App() {
                 <Route path="/about-us" element={<AboutUsPage />} />
                 <Route path="/contact-us" element={<ContactUsPage />} />
             </Routes>
+            <Footer isLoggedIn={isLoggedIn} />
         </>
     );
 }

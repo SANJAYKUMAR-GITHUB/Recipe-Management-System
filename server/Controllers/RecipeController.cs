@@ -24,26 +24,71 @@ namespace RecipeManagementSystem.Controllers
             _context = context;
               _hubContext = hubContext;
         }
-         // ✅ Get All Recipes (Accessible by all users)
+         // Get All Recipes (Accessible by all users)
+        // [HttpGet("all")]
+        // public IActionResult GetAllRecipes()
+        // {
+        //     var recipes = _context.Recipes
+        //         .Select(r => new
+        //         {
+        //             r.Id,
+        //             r.Title,
+        //             r.Category,
+        //             r.Description,
+        //             r.Ingredients,
+        //             r.Instructions,
+        //             Image = r.Image != null ? Convert.ToBase64String(r.Image) : null
+        //         })
+        //         .ToList();
+
+        //     return Ok(recipes);
+        // }
+// GET: Filter by Title and/or Category
+// GET: api/recipes/all
         [HttpGet("all")]
-        public IActionResult GetAllRecipes()
+        public async Task<IActionResult> GetAllRecipes([FromQuery] string? title, [FromQuery] string? category)
         {
-            var recipes = _context.Recipes
+            var query = _context.Recipes.AsQueryable();
+
+            if (!string.IsNullOrEmpty(title))
+            {
+                query = query.Where(r => r.Title.Contains(title));
+            }
+
+            if (!string.IsNullOrEmpty(category))
+            {
+                query = query.Where(r => r.Category == category);
+            }
+
+            var recipes = await query
                 .Select(r => new
                 {
                     r.Id,
                     r.Title,
-                    r.Category,
                     r.Description,
+                    r.Category,
                     r.Ingredients,
                     r.Instructions,
                     Image = r.Image != null ? Convert.ToBase64String(r.Image) : null
                 })
-                .ToList();
+                .ToListAsync();
 
             return Ok(recipes);
         }
-         // ✅ Get Recipes by User (For "Your Recipes" Page)
+
+        // GET: api/recipes/categories
+        [HttpGet("categories")]
+        public async Task<IActionResult> GetCategories()
+        {
+            var categories = await _context.Recipes
+                .Select(r => r.Category)
+                .Distinct()
+                .ToListAsync();
+
+            return Ok(categories);
+        }
+
+         // Get Recipes by User (For "Your Recipes" Page)
         [HttpGet("user/{userId}")]
         public IActionResult GetUserRecipes(int userId)
         {
@@ -64,7 +109,7 @@ namespace RecipeManagementSystem.Controllers
             return Ok(userRecipes);
         }
 
-        // ✅ Add Recipe (For Logged-in Users)
+        // Add Recipe (For Logged-in Users)
         [HttpPost("add")]
         public async Task<IActionResult> AddRecipe([FromForm] RecipeDto model, [FromForm] IFormFile? image)
         {
@@ -100,29 +145,7 @@ namespace RecipeManagementSystem.Controllers
             return Ok(new { success = true, message = "Recipe added successfully!" });
         }
 
-        // [HttpPut("{id}")]
-        // public async Task<IActionResult> UpdateRecipe(int id, [FromBody] Recipe updatedRecipe)
-        // {
-        //     var recipe = await _context.Recipes.FindAsync(id);
-
-        //     if (recipe == null)
-        //         return NotFound(new { success = false, message = "Recipe not found" });
-
-        //     // Update recipe details
-        //     recipe.Title = updatedRecipe.Title;
-        //     recipe.Description = updatedRecipe.Description;
-        //     recipe.Category = updatedRecipe.Category;
-        //     recipe.Ingredients = updatedRecipe.Ingredients;
-        //     recipe.Instructions = updatedRecipe.Instructions;
-        //     recipe.Image = updatedRecipe.Image;
-
-        //     await _context.SaveChangesAsync();
-
-        //     await _hubContext.Clients.All.SendAsync("ReceiveRecipeUpdate");
-
-        //     return Ok(new { success = true, message = "Recipe updated successfully" });
-        // }
-
+        
         [HttpPut("{id}")]
 public async Task<IActionResult> UpdateRecipe(int id, [FromForm] RecipeDto model, [FromForm] IFormFile? image)
 {
