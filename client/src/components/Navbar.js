@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
+import logo from './Logo.jpeg';
 
 const Navbar = ({ isLoggedIn, username, onLogout }) => {
     const navigate = useNavigate();
@@ -15,9 +16,13 @@ const Navbar = ({ isLoggedIn, username, onLogout }) => {
             <div className="container">
                  {/* Brand Section - Link for Guests, Plain Text for Logged-in Users */}
                  {isLoggedIn ? (
-                    <span className="navbar-brand">Recipe Management</span>
+                    <span className="navbar-brand">
+                        <img src={logo} alt="Logo" className="navbar-logo me-2" />Recipe Management
+                    </span>
                 ) : (
-                    <Link className="navbar-brand" to="/">Recipe Management</Link>
+                    <Link className="navbar-brand" to="/">
+                        <img src={logo} alt="Logo" className="navbar-logo me-2" />Recipe Management
+                    </Link>
                 )}
                 <div className="collapse navbar-collapse">
                     <ul className="navbar-nav ms-auto">

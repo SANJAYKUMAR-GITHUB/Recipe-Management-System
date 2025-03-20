@@ -1,0 +1,104 @@
+/* ====== Container Enhancements ====== */
+.container {
+    padding: 2rem 1rem;
+}
+
+/* ====== Recipe Card Styling ====== */
+.card {
+    background: #ffffff;
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(94, 96, 206, 0.2);  /* Purple Shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-5px);  /* Subtle Lift on Hover */
+    box-shadow: 0 12px 30px rgba(94, 96, 206, 0.3);
+}
+
+/* ====== Recipe Image ====== */
+.card-img-top {
+    height: 220px;
+    object-fit: cover;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom: 3px solid #5e60ce; /* Purple Accent Border */
+}
+
+/* ====== Recipe Info ====== */
+.card-body {
+    text-align: center;
+    padding: 20px;
+}
+
+.card-title {
+    font-weight: bold;
+    color: #5e60ce;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    color: #6c757d;
+    font-size: 14px;
+    min-height: 60px;
+}
+
+/* ====== Buttons with Creative Design ====== */
+.btn-custom {
+    width: 110px;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    padding: 8px 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-edit {
+    background: linear-gradient(135deg, #5e60ce, #7b7fd5); 
+    color: #fff;
+}
+
+.btn-edit:hover {
+    background: linear-gradient(135deg, #7b7fd5, #5e60ce); 
+    transform: scale(1.1);  /* Slight Zoom */
+}
+
+.btn-delete {
+    background: linear-gradient(135deg, #dc3545, #ff5a5f); 
+    color: #fff;
+}
+
+.btn-delete:hover {
+    background: linear-gradient(135deg, #ff5a5f, #dc3545); 
+    transform: scale(1.1);  /* Slight Zoom */
+}
+
+/* ====== Modal Improvements ====== */
+.recipe-details-modal .modal-content {
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+}
+
+.close-button {
+    background: #5e60ce;
+    color: #fff;
+    border-radius: 25px;
+    width: 100%;
+    padding: 10px 0;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.close-button:hover {
+    background: #7b7fd5;
+}

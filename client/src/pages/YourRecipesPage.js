@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import * as signalR from '@microsoft/signalr';
 import './RecipeDetailsModal.css'; // Updated modal styling
+import './YourRecipePage.css';
 
 const YourRecipesPage = () => {
     const [recipes, setRecipes] = useState([]);
@@ -65,9 +66,9 @@ const YourRecipesPage = () => {
 
     return (
         <div className="container mt-4">
-            <h2>Your Recipes</h2>
+            <h2 className="text-center mb-4" style={{ color: '#5e60ce', fontWeight: 'bold' }}>Your Recipes</h2>
             {recipes.length === 0 ? (
-                <p>No recipes found. Start by adding a new recipe!</p>
+                <p className="text-center">No recipes found. Start by adding a new recipe!</p>
             ) : (
                 <div className="row">
                     {recipes.map(recipe => (

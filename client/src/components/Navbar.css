@@ -39,6 +39,14 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
+
+.navbar-logo {
+    width: 40px;    /* Adjust size as needed */
+    height: 40px;   /* Adjust size as needed */
+    border-radius: 50%; /* Optional for rounded logo */
+}
+
+
 .dropdown-item {
     color: #ffffff;
 }
