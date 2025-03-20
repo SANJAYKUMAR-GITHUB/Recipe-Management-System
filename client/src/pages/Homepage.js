@@ -1,18 +1,3 @@
-// import React from 'react';
-
-// const HomePage = () => {
-//     return (
-//         <div className="container mt-5 text-center">
-//             <h1>Welcome to the Recipe Management System</h1>
-//             <p className="lead mt-3">
-//                 Easily create, manage, and share your favorite recipes with others.
-//             </p>
-//         </div>
-//     );
-// };
-
-// export default HomePage;
-
 import React from 'react';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import { FaUtensils, FaClipboardList, FaHeart } from 'react-icons/fa';
